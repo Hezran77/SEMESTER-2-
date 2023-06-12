@@ -1,0 +1,85 @@
+# NAMA  : Hezran Arkee Malaiga
+# NPM   : 5220411215
+# DATE  : 12 Juni 2023
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def insert(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            curr_node = self.head
+            while curr_node.next is not None:
+                curr_node = curr_node.next
+            curr_node.next = new_node
+            new_node.prev = curr_node
+            self.tail = new_node
+
+    def bubble_sort(self):
+        if self.head is None or self.head == self.tail:
+            return
+        current = self.head
+        while current.next is not None:
+            next_node = current.next
+            while next_node is not None:
+                if current.data > next_node.data:
+                    current.data, next_node.data = next_node.data, current.data
+                next_node = next_node.next
+            current = current.next
+
+    def filter_ayam_dewasa(self, max_age):
+        if self.head is None:
+            return None
+
+        filtered_list = DoublyLinkedList()
+        current = self.head
+        while current is not None:
+            if current.data >= max_age:
+                filtered_list.insert(current.data)
+            current = current.next
+
+        return filtered_list
+
+    def print_list(self):
+        if self.head is None:
+            print("List ayam masih kosong.")
+        else:
+            current = self.head
+            while current is not None:
+                print(current.data, end=" > ")
+                current = current.next
+            print("None")
+
+
+# Program utama
+arr = [507, 20, 241, 178, 3, 257, 488, 582, 357, 55, 419, 480, 232, 588, 362, 393, 115, 133, 509, 218]
+
+# 1. Membuat double linked list dari array
+linked_list = DoublyLinkedList()
+for num in arr:
+    linked_list.insert(num)
+
+# 2. Mengurutkan linked list
+linked_list.bubble_sort()
+
+# 3. Ayam sebelum di seleksi dewasa
+print("Daftar ayam SEBELUM di seleksi ayam dewasa :")
+linked_list.print_list()
+
+# 4. Menyaring ayam yang sudah dewasa
+filtered_list = linked_list.filter_ayam_dewasa(300)
+
+# 5. Menampilkan hasil seleksi ayam dewasa
+print("Daftar ayam SETELAH di seleksi ayam dewasa :")
+filtered_list.print_list()
